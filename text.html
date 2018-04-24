@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <style type="text/css">
+        html { height: 100% }
+        body { height: 100%; margin: 0px; padding: 0px }
+        #map_canvas { height: 100% }
+    </style>
+    <title>Google Maps</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC0fposp9AesJDy8AWzp38dB7js-TqhKXU&callback=initMap"
+            async defer></script>
+    <script>
+    <script type="text/javascript">
+        function initialize() {
+
+            var myLatlng = new google.maps.LatLng(28, -81);
+            var myOptions = {
+                zoom: 6,
+                center: myLatlng,
+                mapTypeId: google.maps.MapTypeId.HYBRID
+            }
+            var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+
+            var coords = "-81.182206004858,24.1854100227356 -81.0702140033245,24.7389860153198 -80.8464170098305,25.8438450098038 -80.6222470104694,26.9482280015945 -80.3975859880447,28.0521240234375 -80.1723110079765,29.1555219888687 -80.7749719917774,29.21175801754 -80.9939419925213,28.1075259447098 -81.212574005127,27.0034509897232 -81.4309749901295,25.8995419740677 -81.6492510139942,24.7958129644394 -81.7585659921169,24.243047952652 -81.182206004858,24.1854100227356";
+
+
+            coords = coords.split(" ");
+            var path = [];
+
+            for (var i = 0; i < coords.length; i++) {
+                var coord = coords[i].split(",");
+                path.push(new google.maps.LatLng(coord[1], coord[0]));
+            }
+
+            //polygon options
+            var options = {
+                clickable: false,     
+                fillColor: '#FFF',
+                fillOpacity: 0,
+                geodesic: true,
+                map: map,
+                paths: new google.maps.MVCArray(path),
+                strokeColor: '#FFF',
+                strokeOpacity: 1,
+                strokeWeight: 1,
+                zIndex: 99
+            }
+
+            var polygon = new google.maps.Polygon(options);
+
+            var listener = google.maps.event.addListener(polygon, "mouseover", function () { this.setOptions({ strokeColor: '#000' }); });
+
+        }
+    </script>
+</head>
+<body onload="initialize()">
+<div id="map_canvas"></div>
+</body>
+</html>
